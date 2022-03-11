@@ -7,6 +7,7 @@ import { JSONClient } from 'google-auth-library/build/src/auth/googleauth'
 async function main(
   auth: GoogleAuth<JSONClient>,
   runId: number,
+  hour: number,
   min: number,
   spreadsheetId: string,
   sheetName: string
@@ -17,12 +18,12 @@ async function main(
     const now = Date.now()
     const request = {
       spreadsheetId,
-      range: `${sheetName}!A2:C`,
+      range: `${sheetName}!A2:D`,
       valueInputOption: 'USER_ENTERED',
       insertDataOption: 'INSERT_ROWS',
       resource: {
         majorDimension: 'ROWS',
-        values: [[runId, min, now]]
+        values: [[runId, hour, min, now]]
       },
       auth: authClient
     }
@@ -40,6 +41,7 @@ const auth = new GoogleAuth({
 const spreadsheetId = process.env['SPREADSHEET_ID']
 const sheetName = process.env['SHEET_NAME']
 let runId = -1
+let hour = -1
 let min = -1
 
 if (!spreadsheetId) {
@@ -50,11 +52,16 @@ if (!sheetName) {
   console.error(chalk.red(`$SHEET_NAME is not specified`))
   process.exit(1)
 }
-if (typeof argv['run-id'] !== 'number' || typeof argv['min'] !== 'number') {
-  console.log('USAGE: script --run-in [RUN ID] --min [MINUTE]')
+if (
+  typeof argv['run-id'] !== 'number' ||
+  typeof argv['hour'] !== 'number' ||
+  typeof argv['min'] !== 'number'
+) {
+  console.log('USAGE: script --run-in [RUN ID] --hour [HOUR] --min [MINUTE]')
   process.exit(1)
 }
 runId = argv['run-id']
+hour = argv['hour']
 min = argv['min']
 
-main(auth, runId, min, spreadsheetId, sheetName)
+main(auth, runId, hour, min, spreadsheetId, sheetName)

@@ -15,6 +15,10 @@ inputs:
     description: 'Run ID'
     required: true
     default: ''
+  hour:
+    description: 'Hour'
+    required: true
+    default: ''
   min:
     description: 'Minute'
     required: true
@@ -63,9 +67,10 @@ runs:
         service_account: ${{ inputs.service-account }}
 
     - name: Append timestamp to Google Spread Sheet
-      run: npx zx dist/index.js --run-id="${RUN_ID}" --min="${MIN}"
+      run: npx zx dist/index.js --run-id="${RUN_ID}" --hour="${HOUR}" --min="${MIN}"
       env:
         RUN_ID: ${{ inputs.run-id }}
+        HOUR: ${{ inputs.hour }}
         MIN: ${{ inputs.min }}
         SPREADSHEET_ID: ${{ inputs.spread-sheet-id }}
         SHEET_NAME: ${{ inputs.sheet-name }}
