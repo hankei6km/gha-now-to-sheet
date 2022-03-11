@@ -1,11 +1,11 @@
 name: 'appen'
 description: 'append timestamp to Google Spread Sheet'
 inputs:
-  workload_identity_provider:
+  workload-identity-provider:
     description: 'Workload Identity Provider'
     required: true
     default: ''
-  service_account:
+  service-account:
     description: 'Service Account'
     required: true
     default: ''
