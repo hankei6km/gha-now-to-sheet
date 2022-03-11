@@ -1,4 +1,4 @@
-name: append
+name: append-HH-MM
 on:
   workflow_dispatch:
   schedule:
