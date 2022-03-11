@@ -50,7 +50,7 @@ if (!sheetName) {
   console.error(chalk.red(`$SHEET_NAME is not specified`))
   process.exit(1)
 }
-if (typeof argv['run-id'] === 'number' || typeof argv['min'] === 'number') {
+if (typeof argv['run-id'] !== 'number' || typeof argv['min'] !== 'number') {
   console.log('USAGE: script --run-in [RUN ID] --min [min]')
   process.exit(1)
 }
