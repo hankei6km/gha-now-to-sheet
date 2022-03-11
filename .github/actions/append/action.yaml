@@ -15,7 +15,7 @@ inputs:
     description: 'Run ID'
     required: true
     default: ''
-  step:
+  min:
     description: 'Step'
     required: true
     default: ''
@@ -63,10 +63,10 @@ runs:
         service_account: ${{ inputs.service-account }}
 
     - name: Append timestamp to Google Spread Sheet
-      run: npx zx dist/index.js --run-id "${RUN_ID}" --step "${STEP_NUM}"
+      run: npx zx dist/index.js --run-id="${RUN_ID}" --min="${MIN}"
       env:
         RUN_ID: ${{ inputs.run-id }}
-        STEP_NUM: ${{ inputs.step }}
+        MIN: ${{ inputs.min }}
         SPREADSHEET_ID: ${{ inputs.spread-sheet-id }}
         SHEET_NAME: ${{ inputs.sheet-name }}
       shell: bash
