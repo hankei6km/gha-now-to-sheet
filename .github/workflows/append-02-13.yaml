@@ -1,0 +1,29 @@
+name: append
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '13 02 * * *'
+
+jobs:
+  append:
+    environment: append
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Append timestamp to Google Spread Sheeet
+        uses: ./.github/actions/append
+        with:
+          workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service-account: ${{ secrets.SERVICE_ACCOUNT }}
+          run-id: ${{ github.run_id }}
+          hour: 02
+          min: 13
+          spread-sheet-id: ${{ secrets.SPREADSHEET_ID }}
+          sheet-name: ${{ secrets.SHEET_NAME }}
