@@ -1,6 +1,18 @@
 name: 'appen'
 description: 'append timestamp to Google Spread Sheet'
 inputs:
+  cache-path:
+    description: 'Cache path'
+    required: true
+    default: ''
+  cache-key:
+    description: 'Cache key'
+    required: true
+    default: ''
+  cache-restore-keys:
+    description: 'Cache restore key'
+    required: true
+    default: ''
   workload-identity-provider:
     description: 'Workload Identity Provider'
     required: true
@@ -29,6 +41,17 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Cache node modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+
     - name: Install modules
       run: npm ci
       shell: bash
