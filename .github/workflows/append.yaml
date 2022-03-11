@@ -32,6 +32,7 @@ jobs:
         with:
           workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service-account: ${{ secrets.SERVICE_ACCOUNT }}
+          run-id: ${{ github.run_id }}
           step: 23
           spread-sheet-id: ${{ secrets.SPREADSHEET_ID }}
           sheet-name: ${{ secrets.SHEET_NAME }}

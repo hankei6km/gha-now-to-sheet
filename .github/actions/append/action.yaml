@@ -2,12 +2,17 @@ name: 'appen'
 description: 'append timestamp to Google Spread Sheet'
 inputs:
   # context は共有しているようなので、今回は input にしない.
+  # (github は共有していない?)
   workload-identity-provider:
     description: 'Workload Identity Provider'
     required: true
     default: ''
   service-account:
     description: 'Service Account'
+    required: true
+    default: ''
+  run-id:
+    description: 'Run ID'
     required: true
     default: ''
   step:
@@ -55,7 +60,7 @@ runs:
     - name: Append timestamp to Google Spread Sheet
       run: npx zx dist/index.js --run-id "${RUN_ID}" --step "${STEP_NUM}"
       env:
-        RUN_ID: ${{ github.run-id }}
+        RUN_ID: ${{ inputs.run-id }}
         STEP_NUM: ${{ inputs.step }}
         SPREADSHEET_ID: ${{ inputs.spread-sheet-id }}
         SHEET_NAME: ${{ inputs.sheet-name }}
