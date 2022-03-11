@@ -50,5 +50,5 @@ runs:
         RUN_UD: ${{ inputs.run-id }}
         STEP_NUM: ${{ inputs.step }}
         SPREADSHEET_ID: ${{ inputs.spread-sheet-id }}
-        SHEET_NAME: ${{ inputs.sheet_name }}
+        SHEET_NAME: ${{ inputs.sheet-name }}
       shell: bash
