@@ -47,7 +47,7 @@ runs:
     - name: Append timestamp to Google Spread Sheet
       run: npx zx dist/index.js --run-id "${RUN_ID}" --step "${STEP_NUM}"
       env:
-        RUN_UD: ${{ inputs.run-id }}
+        RUN_ID: ${{ inputs.run-id }}
         STEP_NUM: ${{ inputs.step }}
         SPREADSHEET_ID: ${{ inputs.spread-sheet-id }}
         SHEET_NAME: ${{ inputs.sheet-name }}
