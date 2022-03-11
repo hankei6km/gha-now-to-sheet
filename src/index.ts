@@ -51,7 +51,7 @@ if (!sheetName) {
   process.exit(1)
 }
 if (typeof argv['run-id'] !== 'number' || typeof argv['min'] !== 'number') {
-  console.log('USAGE: script --run-in [RUN ID] --min [min]')
+  console.log('USAGE: script --run-in [RUN ID] --min [MINUTE]')
   process.exit(1)
 }
 runId = argv['run-id']
