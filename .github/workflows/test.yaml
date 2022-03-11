@@ -1,12 +1,10 @@
-name: append
+name: test
 on:
-  workflow_dispatch:
-  #schedule:
-  #  - cron: "3,23,43 * * * *"
+  push:
 
 jobs:
-  append:
-    environment: append
+  test:
+    environment: dev
 
     permissions:
       contents: 'read'
