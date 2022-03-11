@@ -8,7 +8,7 @@ async function setup(hh: number, mm: number) {
   await $`sed -e 's/HH/'${hhStr}'/' -e 's/MM/'${mmStr}'/' < template/append.yaml > ${dst}`
 }
 
-for (let hh = 14; hh < 17; hh++) {
+for (let hh = 0; hh < 24; hh++) {
   setup(hh, 13)
   setup(hh, 43)
 }
