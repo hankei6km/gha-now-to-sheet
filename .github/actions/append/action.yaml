@@ -16,7 +16,7 @@ inputs:
     required: true
     default: ''
   min:
-    description: 'Step'
+    description: 'Minute'
     required: true
     default: ''
   spread-sheet-id:
