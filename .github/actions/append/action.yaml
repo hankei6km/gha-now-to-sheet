@@ -31,9 +31,11 @@ runs:
   steps:
     - name: Install modules
       run: npm ci
+      shell: bash
 
     - name: Build
       run: npm run build
+      shell: bash
 
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
@@ -49,3 +51,4 @@ runs:
         STEP_NUM: ${{ inputs.step }}
         SPREADSHEET_ID: ${{ inputs.spread-sheet-id }}
         SHEET_NAME: ${{ inputs.sheet_name }}
+      shell: bash
