@@ -1,5 +1,6 @@
 name: append
 on:
+  push:
   workflow_dispatch:
   #schedule:
   #  - cron: "3,23,43 * * * *"
@@ -14,45 +15,15 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Append timestamp to Google Spread Sheeet
+        uses: ./.github/actions/append
         with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-
-      - name: Install modules
-        run: npm ci
-
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0.6.0'
-        with:
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT }}
-
-      - name: Build
-        run: npm run build
-
-      - name: Get values from spread sheet
-        run: npx zx dist/index.js --run-id "${GITHUB_RUN_ID}" --step "${STEP_NUM}"
-        env:
-          STEP_NUM: 3
-          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-          SHEET_NAME: ${{ secrets.SHEET_NAME }}
+          workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service-account: ${{ secrets.SERVICE_ACCOUNT }}
+          run-id: ${{ github.run_id }}
+          step: 23
+          spread-sheet-id: ${{ secrets.SPREADSHEET_ID }}
+          sheet-name: ${{ secrets.SHEET_NAME }}
