@@ -45,5 +45,5 @@ jobs:
           service-account: ${{ secrets.SERVICE_ACCOUNT }}
           run-id: ${{ env.GITHUB_RUN_ID }}
           step: 23
-          spreadsheet-id: ${{ secrets.SPREADSHEET_ID }}
+          spread-sheet-id: ${{ secrets.SPREADSHEET_ID }}
           sheet-name: ${{ secrets.SHEET_NAME }}
