@@ -44,6 +44,15 @@ runs:
         workload_identity_provider: ${{ inputs.workload-identity-provider }}
         service_account: ${{ inputs.service-account }}
 
+    - name: check
+      run: echo  --run-id "${RUN_ID}" --step "${STEP_NUM}"
+      env:
+        RUN_ID: ${{ inputs.run-id }}
+        STEP_NUM: ${{ inputs.step }}
+        SPREADSHEET_ID: ${{ inputs.spread-sheet-id }}
+        SHEET_NAME: ${{ inputs.sheet-name }}
+      shell: bash
+
     - name: Append timestamp to Google Spread Sheet
       run: npx zx dist/index.js --run-id "${RUN_ID}" --step "${STEP_NUM}"
       env:
