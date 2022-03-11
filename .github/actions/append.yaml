@@ -1,0 +1,51 @@
+name: 'appen'
+description: 'append timestamp to Google Spread Sheet'
+inputs:
+  workload_identity_provider:
+    description: 'Workload Identity Provider'
+    required: true
+    default: ''
+  service_account:
+    description: 'Service Account'
+    required: true
+    default: ''
+  run-id:
+    description: 'Run ID'
+    required: true
+    default: ''
+  step:
+    description: 'Step'
+    required: true
+    default: ''
+  spread-sheet-id:
+    description: 'Spread Sheet ID'
+    required: true
+    default: ''
+  sheet-name:
+    description: 'Sheet name'
+    required: true
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install modules
+      run: npm ci
+
+    - name: Build
+      run: npm run build
+
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v0.6.0'
+      with:
+        workload_identity_provider: ${{ inputs.workload-identity-provider }}
+        service_account: ${{ inputs.service-account }}
+
+    - name: Append timestamp to Google Spread Sheet
+      run: npx zx dist/index.js --run-id "${RUN_ID}" --step "${STEP_NUM}"
+      env:
+        RUN_UD: ${{ inputs.run-id }}
+        STEP_NUM: ${{ inputs.step }}
+        SPREADSHEET_ID: ${{ inputs.spread-sheet-id }}
+        SHEET_NAME: ${{ inputs.sheet_name }}

@@ -1,5 +1,6 @@
 name: append
 on:
+  push:
   workflow_dispatch:
   #schedule:
   #  - cron: "3,23,43 * * * *"
@@ -37,22 +38,12 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
 
-      - name: Install modules
-        run: npm ci
-
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0.6.0'
+      - name: Append timestamp to Google Spread Sheeet
+        uses: ./.github/actions/append
         with:
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT }}
-
-      - name: Build
-        run: npm run build
-
-      - name: Get values from spread sheet
-        run: npx zx dist/index.js --run-id "${GITHUB_RUN_ID}" --step "${STEP_NUM}"
-        env:
-          STEP_NUM: 3
-          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-          SHEET_NAME: ${{ secrets.SHEET_NAME }}
+          workload-identity^provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service-account: ${{ secrets.SERVICE_ACCOUNT }}
+          run-id: ${{ env.GITHUB_RUN_ID }}
+          step: 23
+          spreadsheet-id: ${{ secrets.SPREADSHEET_ID }}
+          sheet-name: ${{ secrets.SHEET_NAME }}
