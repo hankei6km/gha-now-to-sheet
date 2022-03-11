@@ -1,8 +1,8 @@
 name: append
 on:
   workflow_dispatch:
-  #schedule:
-  #  - cron: "3,23,43 * * * *"
+  schedule:
+    - cron: '13 14 * * *'
 
 jobs:
   append:
@@ -23,7 +23,7 @@ jobs:
           workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service-account: ${{ secrets.SERVICE_ACCOUNT }}
           run-id: ${{ github.run_id }}
-          hour: -1
-          min: -1
+          hour: 14
+          min: 13
           spread-sheet-id: ${{ secrets.SPREADSHEET_ID }}
           sheet-name: ${{ secrets.SHEET_NAME }}
