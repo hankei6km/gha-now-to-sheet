@@ -30,6 +30,7 @@ async function main(
     const addRes = await sheets.spreadsheets.values.append(request)
   } catch (err) {
     console.log('The API returned an error: ' + err)
+    process.exit(1)
   }
 }
 
