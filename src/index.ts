@@ -23,8 +23,8 @@ async function main(
       throw `error occurred in "gh run view": ${JSON.stringify(out)}`
     }
     const createdAt = new Date(out.stdout.replace('\n', ''))
-    values[0].push(createdAt.getTime())
-    console.log(`now + createdAt: ${JSON.stringify(values)}`)
+    values[0].splice(3, 0, createdAt.getTime())
+    console.log(`createdAt + now: ${JSON.stringify(values)}`)
     const request = {
       spreadsheetId,
       range: `${sheetName}!A2:E`,
