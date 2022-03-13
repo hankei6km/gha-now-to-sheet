@@ -16,6 +16,8 @@ async function main(
   const sheets = sheetsAPI({ version: 'v4', auth: authClient })
   try {
     const now = Date.now()
+    const values = [[runId, hour, min, now]]
+    console.log(JSON.stringify(values))
     const request = {
       spreadsheetId,
       range: `${sheetName}!A2:D`,
@@ -23,7 +25,7 @@ async function main(
       insertDataOption: 'INSERT_ROWS',
       resource: {
         majorDimension: 'ROWS',
-        values: [[runId, hour, min, now]]
+        values
       },
       auth: authClient
     }
