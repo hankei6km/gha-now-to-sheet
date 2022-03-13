@@ -18,6 +18,7 @@ jobs:
       - name: Append timestamp to Google Spread Sheeet
         uses: ./.github/actions/append
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service-account: ${{ secrets.SERVICE_ACCOUNT }}
           run-id: ${{ github.run_id }}

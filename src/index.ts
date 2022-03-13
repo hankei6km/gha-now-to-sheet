@@ -17,10 +17,17 @@ async function main(
   try {
     const now = Date.now()
     const values = [[runId, hour, min, now]]
-    console.log(JSON.stringify(values))
+    console.log(`now: ${JSON.stringify(values)}`)
+    const out = await $`gh run view ${runId} --json createdAt --jq ".createdAt"`
+    if (out.exitCode !== 0) {
+      throw `error occurred in "gh run view": ${JSON.stringify(out)}`
+    }
+    const createdAt = new Date(out.stdout.replace('\n', ''))
+    values[0].splice(3, 0, createdAt.getTime())
+    console.log(`createdAt + now: ${JSON.stringify(values)}`)
     const request = {
       spreadsheetId,
-      range: `${sheetName}!A2:D`,
+      range: `${sheetName}!A2:E`,
       valueInputOption: 'USER_ENTERED',
       insertDataOption: 'INSERT_ROWS',
       resource: {

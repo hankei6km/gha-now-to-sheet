@@ -3,6 +3,10 @@ description: 'append timestamp to Google Spread Sheet'
 inputs:
   # context は共有しているようなので、今回は input にしない.
   # (github は共有していない?)
+  github-token:
+    description: 'GITHUB_TOKEN'
+    required: true
+    default: ''
   workload-identity-provider:
     description: 'Workload Identity Provider'
     required: true
@@ -69,6 +73,7 @@ runs:
     - name: Append timestamp to Google Spread Sheet
       run: npx zx dist/index.js --run-id="${RUN_ID}" --hour="${HOUR}" --min="${MIN}"
       env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
         RUN_ID: ${{ inputs.run-id }}
         HOUR: ${{ inputs.hour }}
         MIN: ${{ inputs.min }}
