@@ -18,16 +18,29 @@ async function main(
     const now = Date.now()
     const values = [[runId, hour, min, now]]
     console.log(`now: ${JSON.stringify(values)}`)
-    const out = await $`gh run view ${runId} --json createdAt --jq ".createdAt"`
-    if (out.exitCode !== 0) {
-      throw `error occurred in "gh run view": ${JSON.stringify(out)}`
+    const outCreatedAt =
+      await $`gh run view ${runId} --json createdAt --jq ".createdAt"`
+    if (outCreatedAt.exitCode !== 0) {
+      throw `error occurred in "gh run view(createdAt)": ${JSON.stringify(
+        outCreatedAt
+      )}`
     }
-    const createdAt = new Date(out.stdout.replace('\n', ''))
+    const createdAt = new Date(outCreatedAt.stdout.replace('\n', ''))
     values[0].splice(3, 0, createdAt.getTime())
     console.log(`createdAt + now: ${JSON.stringify(values)}`)
+    const outStartedAt =
+      await $`gh api '/repos/{owner}/{repo}/actions/runs/${runId}/jobs' --jq ".jobs[0].started_at"`
+    if (outStartedAt.exitCode !== 0) {
+      throw `error occurred in "gh run view(startedAt)": ${JSON.stringify(
+        outStartedAt
+      )}`
+    }
+    const startedAt = new Date(outStartedAt.stdout.replace('\n', ''))
+    values[0].splice(4, 0, startedAt.getTime())
+    console.log(`createdAt + startedAt + now: ${JSON.stringify(values)}`)
     const request = {
       spreadsheetId,
-      range: `${sheetName}!A2:E`,
+      range: `${sheetName}!A2:F`,
       valueInputOption: 'USER_ENTERED',
       insertDataOption: 'INSERT_ROWS',
       resource: {
