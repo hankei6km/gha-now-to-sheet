@@ -13,6 +13,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^17.0.21",
+    "chanpuru": "^0.2.0",
     "rimraf": "^3.0.2",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
