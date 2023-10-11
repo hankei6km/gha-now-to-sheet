@@ -10,3 +10,9 @@ updates:
     schedule:
       # Check for updates to GitHub Actions every week
       interval: "weekly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/.github/actions/append"
+    schedule:
+      # Check for updates to "append" action every week
+      interval: "weekly"
